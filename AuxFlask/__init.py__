@@ -17,7 +17,7 @@ app.register_blueprint(movie_api)
 app.register_blueprint(room_api)
 app.register_blueprint(showing_api)
 app.register_blueprint(customer_api)
-app.register_blueprint(attend_api)
+app.register_blueprint(playlist_api)
 app.register_blueprint(attendshow_api)
 
 @app.route("/")
