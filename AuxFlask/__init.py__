@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
-from genre import genre_api
-from movie import movie_api
+from playlistapi import playlist_api
+from songapi import song_api
 from room import room_api
 from showing import showing_api
 from customer import customer_api
