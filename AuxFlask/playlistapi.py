@@ -1,20 +1,45 @@
 from flask import Blueprint, render_template, request
+
 playlist_api = Blueprint('playlist_api', __name__, template_folder="templates")
 
-import playlist
+
+@playlist_api.route('/addsong')
+def songAdd(song=None):
+	return render_template('songsearch.html')
+
+@playlist_api.route('/songsearch')
+def newSong(name=None):
+	return render_template('songsearch.html', name = name)
+
+@playlist_api.route('/songsearched', methods = ["POST"])
+def songSearched():
+	songname = request.form['name']
+
+	if songname == "" or songname == None:
+		return render_template('unsucces.html')
+
+	songs = userCatalogue[code].search(songname)
+
+	return render_template('songs.html', songs = songs)
 
 
-@playlist_api.route('/listattend')
-def listAllAttendancess():
-	cnx = mysql.connector.connect(user='root', database = 'MovieTheatre')
-	cursor = cnx.cursor()
-	query = ("SELECT Attend.Customer_idCustomer as `Customer ID`, Attend.Showing_idShowing as `Showing ID`, Attend.Rating as `Rating`, "
-			"Customer.FirstName as `First Name`, Customer.LastName as `Last Name`, Movie.MovieName as `Movie Name`, Movie.idMovie as `Movie ID` "
-			"from Attend left join Customer on Attend.Customer_idCustomer = Customer.idCustomer "
-			"left join Showing on Attend.Showing_idShowing = Showing.idShowing "
-			"left join Movie on Showing.Movie_idMovie = Movie.idMovie order by Attend.Rating" )
-	cursor.execute(query)
-	atts=cursor.fetchall()
-	cnx.close()
-	return render_template('listofatts.html', atts = atts)
+
+@playlist_api.route('/songadd')
+def addSong(song=None):
+	return render_template('songs.html', song = song)
+
+@playlist_api.route('/songadded')
+def addedSong(song=None):
+	song = request.form['song']
+
+	userCatalogue[code].addSong(song)
+
+	songs = userCatalogue[code].getList()
+	size = userCatalogue[code].getSize()
+
+	return render_template('playlist.html', username = user, songs = songs, size = size)
+
+
+
+
 

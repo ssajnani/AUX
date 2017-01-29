@@ -26,6 +26,9 @@ class Song():
 		self.album = song['album']['name']
 		self.songInfo = [self.title, self.artist, self.songLength, self.album]
 
+	def getName(self):
+		return self.title
+
 	def getInfo(self):
 		return self.songInfo
 

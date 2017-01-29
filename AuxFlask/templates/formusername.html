@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>List of movies</title>
+    <title>Movie Form</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -57,24 +57,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/listattend">Attendances</a>
-                    </li>
-                    <li>
-                        <a href="/customeroptions">Customers</a>
-                    </li>
-                    <li>
-                        <a href="/genreoptions">Genres</a>
-                    </li>
-                    <li>
-                        <a href="/movieoptions">Movies</a>
-                    </li>
-                    <li>
-                        <a href="/roomoptions">Rooms</a>
-                    </li>
-                    <li>
-                        <a href="/showingoptions">Showings</a>
-                    </li>
+                   
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -88,33 +71,31 @@
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Welcome, staff member
-                    <br><small>List of movies</small>
+                <h1 class="page-header">Welcome
                 </h1>
             </div>
         </div>
         <!-- /.row -->
 
-<table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th>Movie ID</th>
-      <th>Movie Name</th>
-      <th>Movie Year</th>
+ <form action="/usersubmit" method="post">
+     <label for="name">Username:</label><br>
+     <input type="text" name="username" value="Star Wars"><br>
+     <label for="year">Aux Code:</label><br>
+     <input type="text" name="auxcode" value="2000"><br>
+     <label for ="id">Playlist Name:</label><br>
+     <input type="text" name="name" value="1"<br><br>
+     <label for="photo">Photo: </label><br>
+     <div class="input-group">
+        <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+                <input type="file" id="fileupload" name="file" m$
+                </span>
+                </span>
+        </div>
 
-    </tr>
-  </thead>
-  <tbody>
-{% for movie in movies %}
- <span>
-   <tr>
-      <td>{{movie.0}}</td>
-      <td>{{movie.1}}</td>
-      <td>{{movie.2}}</td>
-    </tr>
-  </tbody>
-{% endfor %}
-</table>
+    <br> <input type="submit" value="Submit">
+ </form>
+
 
 
     </div>

@@ -1,28 +1,19 @@
 from flask import Flask, render_template, request
-from playlistapi import playlist_api
-from songapi import song_api
-from room import room_api
-from showing import showing_api
-from customer import customer_api
-from attend import attend_api
-from attendshow import attendshow_api
-from select import select_api
 
-import mysql.connector
+from playlistapi import playlist_api
+from authorization import authorization_api
+
+
 
 app = Flask(__name__)
 
-app.register_blueprint(genre_api)
-app.register_blueprint(movie_api)
-app.register_blueprint(room_api)
-app.register_blueprint(showing_api)
-app.register_blueprint(customer_api)
 app.register_blueprint(playlist_api)
-app.register_blueprint(attendshow_api)
+app.register_blueprint(authorization_api)
 
-@app.route("/")
+
+@app.route("/username")
 def main():
-    return render_template('staffMainPage.html')
+    return render_template('formusername.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
