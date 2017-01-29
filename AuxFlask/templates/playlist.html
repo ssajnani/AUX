@@ -94,6 +94,12 @@
       <td>{{ song.getVoteCount() }}</td>
       <td><input type="radio" name="upvotes" value="{{ song.getIndex() }}"> Upvote </td>
       <td><input type="radio" name="downvotes" value="{{ song.getIndex() }}"> Downvote </td>
+      <form action="/upvote" method="post">
+      <td><input type="radio" name="upvotes" value={{ song.getIndex() }}> Upvote </td>
+      </form>
+      <form action="/downvote" method="post">
+      <td><input type="radio" name="downvotes" value={{ song.getIndex() }}> Downvote </td>
+      </form>
 
   
     </tr>
