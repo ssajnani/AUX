@@ -92,8 +92,8 @@
    <tr>
       <td>{{ song.getName() }}</td>
       <td>{{ song.getVoteCount() }}</td>
-      <td><input type="radio" name="upvotes" value={{ song.getIndex() }}> Upvote </td>
-      <td><input type="radio" name="downvotes" value={{ song.getIndex() }}> Downvote </td>
+      <td><input type="radio" name="upvotes" value="{{ song.getIndex() }}"> Upvote </td>
+      <td><input type="radio" name="downvotes" value="{{ song.getIndex() }}"> Downvote </td>
 
   
     </tr>
@@ -108,11 +108,11 @@
     <input type="submit" value="Search Songs" />
 </form>
 
-<form action = "/removesong">
+<form action = "/songdelete" method = "post">
     <label> Name: </label><br>
-    <select id="song" name = "song">
+    <select id="value" name = "value">
       {% for song in songs %}
-        <option value={{ song.getName() }} name="song">{{song.getName()}}</option>
+        <option value="{{ song.getName() }}" name="value">{{ song.getName() }}</option>
       {% endfor %}
     </select><br>
     <input type="submit" value="Remove Song" />

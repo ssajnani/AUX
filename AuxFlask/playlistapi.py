@@ -49,18 +49,18 @@ def addedSong(name=None):
 	
 
 @playlist_api.route('/removesong')
-def removeSong(songs=None):
-	return render_template('removesong.html', songs = spot[user].getList())
+def removeSong(songss=None):
+	return render_template('playlist.html', songss = spot[user].getList())
 
 @playlist_api.route('/songdelete', methods = ['POST'])
-def songDelete(songs=None):
-	song = request.form['song']
+def songDelete(songss=None):
+	value = request.form['value']
 
 
-	spot[username[0]].removeSong(song)
+	spot[username[0]].removeSong(value)
 
 
-	return render_template('playlist.html', username = username[0], songs = spot[username[0]].getList())
+	return render_template('playlist.html', code = spot[username[0]].getCode(), username = username[0], songs = spot[username[0]].getList())
 
 
 

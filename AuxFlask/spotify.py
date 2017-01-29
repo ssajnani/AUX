@@ -54,21 +54,30 @@ class Spotify_API:
 		if len(self.songList) != 0:
 			self.count = len(self.songList) - 1
 			while 0 < self.songList[self.count].getVoteCount() and self.count != 0:
+				self.songList[self.count + 1] = self.songList[self.count]
+				self.songList[self.count + 1].setIndex(self.count + 1)
 				self.count -= 1
 			song.setIndex(self.count)
 			self.songList.insert(self.count, song)
-		else:
+		elif len(self.songList) == 0:
 			song.setIndex(0)
-			self.songList.insert(0, song)
+			self.songList.append(song)
+		else:
+			song.setIndex(self.count + 1)
+			self.songList.append(song)
 
 
-	def removeSong(self, song):
-		if len(self.songList) != 0:
+	def removeSong(self, songName):
+		if len(self.songList) > 0:
 			self.count = len(self.songList) - 1
-			while song.getName() != self.songList[self.count].getName() and self.count != 0:
+			while songName != self.songList[self.count].getName() and self.count != 0:
 				self.count -= 1
-			if song.getName() == self.songList[self.count].getName():
+			if songName == self.songList[self.count].getName():
 				self.songList.pop(self.count)
+				while len(self.songList) - 1 > self.count:
+					self.songList[self.count].setIndex(self.count)
+					self.count += 1
+
 
 	def getCode(self):
 		return self.code
@@ -77,13 +86,17 @@ class Spotify_API:
 		if self.songList[index].getVoteCount() > self.songList[index+1].getVoteCount() and index != self.top:
 			self.temp = self.songList[index]
 			self.songList[index] = self.songList[index+1]
+			self.songList[index].setIndex(index)
 			self.songList[index+1] = self.temp 
+			self.songList[index + 1].setIndex(index + 1)
 	
 	def rearrangeDownvote(self, index):
 		if self.songList[index].getVoteCount() < self.songList[index-1].getVoteCount() and index != 0:
 			self.temp = self.songList[index]
 			self.songList[index] = self.songList[index-1]
-			self.songList[self.i-1] = self.temp 
+			self.songList[index].setIndex(index)
+			self.songList[index-1] = self.temp
+			self.songList[index-1].setIndex(index-1) 
 
 	def getTopSong(self):
 		return self.songList[len(self.songList) - 1]
