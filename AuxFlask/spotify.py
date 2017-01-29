@@ -78,6 +78,8 @@ class Spotify_API:
 					self.songList[self.count].setIndex(self.count)
 					self.count += 1
 
+	def getSong(self, index):
+		return self.songList[index]
 
 	def getCode(self):
 		return self.code

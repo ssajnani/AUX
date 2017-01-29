@@ -53,7 +53,7 @@ def removeSong(songss=None):
 	return render_template('playlist.html', songss = spot[user].getList())
 
 @playlist_api.route('/songdelete', methods = ['POST'])
-def songDelete(songss=None):
+def songDelete(songs=None):
 	value = request.form['value']
 
 
@@ -63,6 +63,25 @@ def songDelete(songss=None):
 	return render_template('playlist.html', code = spot[username[0]].getCode(), username = username[0], songs = spot[username[0]].getList())
 
 
+
+@playlist_api.route('/upvote', methods = ['POST'])
+def upvote(upvotes=None):
+	index = request.form['upvotes']
+
+	spot[username].getSong(index).upvote()
+	spot[username].rearrangeUpvote(index)
+
+	return render_template('playlist.html', code = spot[username[0]].getCode(), username = username[0], songs = spot[username[0]].getList())
+
+
+
+@playlist_api.route('/downvote', methods = ['POST'])
+def downvote(downvotes=None):
+	index = request.form['downvotes']
+	spot[username].getSong(index).downvote()
+	spot[username].rearrangeDownvote(index)
+
+	return render_template('playlist.html', code = spot[username[0]].getCode(), username = username[0], songs = spot[username[0]].getList())
 
 
 
