@@ -3,31 +3,23 @@ import spotipy
 # Song class to represent Spotify track info in a prettier format.
 class Song():
 
-	def __init__(self, spotifyObject, spotifyID):
+	def __init__(self, spotifyObject):
 
+		self.index = 0
+		self.title = spotifyObject['name']
+		self.artist = spotifyObject['artists']
+		self.songLength = int(spotifyObject['duration_ms'])
+		self.songInfo = [self.title, self.artist, self.songLength]
 		self.voteCount = 0
-		self.spotifyID = ''
-		self.sp = spotifyObject
-		self.title = ''
-		self.artist = ''
-		self.album = ''
-		self.songLength = 0
-		self.songInfo = []
-		self.id = spotifyID
-		self.getInfo()
-		
-	def findInfo(self):
-
-		song = self.sp.track(spotifyID)
-
-		self.title = song['artists'][0]['name']
-		self.artist = song['name']
-		self.songLength = int(song['duration_ms'])
-		self.album = song['album']['name']
-		self.songInfo = [self.title, self.artist, self.songLength, self.album]
 
 	def getName(self):
 		return self.title
+
+	def setIndex(self, index):
+		self.index = index
+
+	def getIndex(self):
+		return self.index
 
 	def getInfo(self):
 		return self.songInfo

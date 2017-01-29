@@ -3,7 +3,7 @@ import sys
 import spotipy
 import spotipy.util as util
 import os
-import song
+from song import Song
 from settings import setKeys
 
 class Spotify_API:
@@ -16,7 +16,6 @@ class Spotify_API:
 
 		self.code = auxCode
 		self.songList = []
-		self.top = len(self.songList) - 1
 		self.sp.user_playlist_create(username, playlistName, public = True)
 		self.spPlaylist = self.sp.user_playlists(username, limit = 1, offset = 0)
 		self.playListId = self.spPlaylist['items'][0]['uri']
@@ -26,9 +25,10 @@ class Spotify_API:
 
 		searchResults = []
 		results = self.sp.search(q = query, limit = 5, type = 'track')
-		for track in results:
-			song = Song(track['id'])
-			searchResults.append(song)
+		for track in results['tracks']['items']:
+			print(track['name'])
+			new = Song(track)
+			searchResults.append(new)
 
 		return searchResults
 
@@ -51,14 +51,27 @@ class Spotify_API:
 
 	## Playlist related functions.
 	def addSong(self, song):
-		self.append(song)
-		self.top += 1
+		if len(self.songList) != 0:
+			self.count = len(self.songList) - 1
+			while 0 < self.songList[self.count].getVoteCount() and self.count != 0:
+				self.count -= 1
+			song.setIndex(self.count)
+			self.songList.insert(self.count, song)
+		else:
+			song.setIndex(0)
+			self.songList.insert(0, song)
 
-	def removeSong(self):
-		if top != 0:
-			topSong = self.songList.pop(self.top)
-			self.top -= 1
-		self.sp.user_playlist_add_tracks(self.username, self.playListId, tracks = topSong.id, position = 0)
+
+	def removeSong(self, song):
+		if len(self.songList) != 0:
+			self.count = len(self.songList) - 1
+			while song.getName() != self.songList[self.count].getName() and self.count != 0:
+				self.count -= 1
+			if song.getName() == self.songList[self.count].getName():
+				self.songList.pop(self.count)
+
+	def getCode(self):
+		return self.code
 
 	def rearrangeUpvote(self, index):
 		if self.songList[index].getVoteCount() > self.songList[index+1].getVoteCount() and index != self.top:
@@ -73,12 +86,12 @@ class Spotify_API:
 			self.songList[self.i-1] = self.temp 
 
 	def getTopSong(self):
-		return self.songList[self.top]
+		return self.songList[len(self.songList) - 1]
 
 	def getList(self):
 		return self.songList
 
 	def getSize(self):
-		return self.top
+		return len(self.songList) - 1
 
 

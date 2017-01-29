@@ -8,10 +8,7 @@ import song
 import settings
 
 
-
 authorization_api = Blueprint('authorization_api', __name__, template_folder="templates")
-
-
 
 
 @authorization_api.route('/host')
@@ -22,40 +19,32 @@ def listOpts():
 def newUsername(info=None):
 	return render_template('formusername.html', info = info)
 
-userCatalogue = {}
-userCode = {}
+spot = {}
 
-spot = []
+username = []
 
-code = None
-
-user = None
 
 @authorization_api.route('/usersubmit', methods = ["POST"])
 def submitUsername():
-		
-	username = request.form['username']
+	global spot
+	global username
+
+	username.insert(0, request.form['username'])
 	if (request.form['username'] == "" or request.form['username'] == None):
 		return render_template('unsuccess.html')
 	if (request.form['auxcode'] == "" or request.form['auxcode'] == None):
 		return render_template('unsuccess.html')	
-	if (request.form['name'] == "" or request.form['name'] == None):
-		spot.append(Spotify_API(request.form['username'], request.form['auxcode']))
-		spot[-1].authorizeUser(request.form['username'])
-		
+	if username[0] in spot:
+		return render_template('playlist.html', code = spot[username[0]].getCode, username = username[0], songs = spot[username[0]].getList())
+	elif (request.form['name'] == "" or request.form['name'] == None):
+		spot[username[0]] = Spotify_API(request.form['username'], request.form['auxcode'])
+		spot[username[0]].authorizeUser(request.form['username'])
 	else:
-		spot.append(Spotify_API(request.form['username'], request.form['auxcode'], request.form['name']))
-		spot[-1].authorizeUser(request.form['username'])
+		spot[username[0]] = Spotify_API(request.form['username'], request.form['auxcode'], request.form['name'])
+		spot[username[0]].authorizeUser(request.form['username'])
 
 	
-
-	if spot[-1].isAuthorized():
-		code = request.form['auxcode']
-		user = username
-		userCatalogue[request.form['auxcode']] = spot
-		userCode[request.form['username']] = request.form['auxcode']
-		songs = spot[-1].getList()
-		size = spot[-1].getSize()
-		return render_template('playlist.html', code = code, username = username, songs = songs, size = size)
+	if spot[username[0]].isAuthorized():
+		return render_template('playlist.html', code = spot[username[0]].getCode(), username = username[0], songs = spot[username[0]].getList())
 
 

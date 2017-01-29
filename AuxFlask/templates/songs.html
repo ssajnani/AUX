@@ -82,42 +82,19 @@
   <thead class="thead-inverse">
     <tr>
       <th>Song Name</th>
-      <th>Vote Count</th>
-
+      <form action = "/songadded" method = 'post'>
+        <select id="name" name = "name">
+      {% for val in vals %}
+        <option value ="{{ val }}" name="name">{{ val }}</option>
+      {% endfor %}
+      </select><br>
+      <input type="submit" value="Select Song" />
+    </form>
     </tr>
   </thead>
   <tbody>
-{% for song in songs %}
- <span>
-   <tr>
-      <td>{{ song.getName() }}</td>
-      <td>{{ song.getVoteCount() }}</td>
-      <td><input type="radio" name="upvotes" value={{ song.getIndex() }}> Upvote </td>
-      <td><input type="radio" name="downvotes" value={{ song.getIndex() }}> Downvote </td>
 
-  
-    </tr>
-  </tbody>
-{% endfor %}
 </table>
-
-
-<form action="/songsearched" method = "post" >
-    <label for="name">Song name:</label><br>
-     <input type="text" name="name"><br>
-    <input type="submit" value="Search Songs" />
-</form>
-
-<form action = "/removesong">
-    <label> Name: </label><br>
-    <select id="song" name = "song">
-      {% for song in songs %}
-        <option value={{ song.getName() }} name="song">{{song.getName()}}</option>
-      {% endfor %}
-    </select><br>
-    <input type="submit" value="Remove Song" />
-</form>
-
 
     </div>
     <!-- /.container -->

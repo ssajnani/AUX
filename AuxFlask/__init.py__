@@ -7,11 +7,14 @@ from authorization import authorization_api
 
 app = Flask(__name__)
 
+
+
 app.register_blueprint(playlist_api)
 app.register_blueprint(authorization_api)
 
 
-@app.route("/username")
+
+@app.route("/")
 def main():
     return render_template('formusername.html')
 
