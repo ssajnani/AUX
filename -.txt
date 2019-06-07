@@ -1,0 +1,5 @@
+var auxApp = angular.module('auxApp', []);
+
+auxApp.controller('mainController', function($scope) {
+    $scope.message = "hi";
+});
